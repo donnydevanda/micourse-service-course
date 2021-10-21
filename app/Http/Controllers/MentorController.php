@@ -27,7 +27,7 @@ class MentorController extends Controller
         }
 
         return response()->json([
-            'status' => 'error',
+            'status' => 'success',
             'message' => $mentor
         ]);
     }
