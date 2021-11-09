@@ -120,10 +120,10 @@ class CourseController extends Controller
             'name' => 'string',
             'certificate' => 'boolean',
             'thumbnail' => 'string|url',
-            'type' => 'in:free,premium',
-            'status' => 'in:draft,published',
+            'type' => 'in:Free,Premium',
+            'status' => 'in:Draft,Published',
             'price' => 'integer',
-            'level' => 'in:all-level,beginner,intermediate,advance',
+            'level' => 'in:All,Beginner,Intermediate,Advance',
             'mentor_id' => 'integer',
             'description' => 'string'
         ];
