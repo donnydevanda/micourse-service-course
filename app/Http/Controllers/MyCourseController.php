@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class MyCourseController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $myCourses = MyCourse::query()->with('course');
 
         $userId = $request->query('user_id');
@@ -24,7 +25,8 @@ class MyCourseController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         $rules = [
             'course_id' => 'required|integer',
             'user_id' => 'required|integer'
@@ -44,7 +46,7 @@ class MyCourseController extends Controller
         $courseId = $request->input('course_id');
         $course = Course::find($courseId);
 
-        if(!$course) {
+        if (!$course) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'course not found'
@@ -65,18 +67,18 @@ class MyCourseController extends Controller
                                     ->where('user_id', '=', $userId)
                                     ->exists();
 
-        if($isExistMyCourse) {
+        if ($isExistMyCourse) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'user already take this course'
-            ], 409);
+            ],409);
         }
 
         if ($course->type === 'premium') {
             if ($course->price === 0) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'price cannot be 0'
+                    'message' => 'Price can\'t be 0'
                 ], 405);
             }
 
@@ -92,21 +94,23 @@ class MyCourseController extends Controller
                 ], $order['http_code']);
             }
 
-            return response()->json([
-                'status' => $order['status'],
-                'data' => $order['data']
-            ]);
-        } else {
-            $myCourse = MyCourse::create($data);
+            // return response()->json([
+            //     'status' => $order['status'],
+            //     'data' => $order['data']
+            // ]);
 
-            return response()->json([
-                'status' => 'success',
-                'data' => $myCourse
-            ]);
         }
+
+        $myCourse = MyCourse::create($data);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $myCourse
+        ]);
     }
 
-    public function createPremiumAccess(Request $request) {
+    public function createPremiumAccess(Request $request)
+    {
         $data = $request->all();
         $myCourse = MyCourse::create($data);
 
